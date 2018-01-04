@@ -25,16 +25,18 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
-    <nablarch.db.url>jdbc:h2:./h2/db/nablarch_example</nablarch.db.url>
-    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
-    <nablarch.db.user>NABLARCH_EXAMPLE</nablarch.db.user>
-    <nablarch.db.password>NABLARCH_EXAMPLE</nablarch.db.password>
-    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
+    <nablarch.db.jdbcDriver>com.ibm.db2.jcc.DB2Driver</nablarch.db.jdbcDriver>
+    <nablarch.db.url>jdbc:db2://localhost:50000/NABLARCH</nablarch.db.url>
+    <nablarch.db.adminUser>db2admin</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>db2admin</nablarch.db.adminPassword>
+    <nablarch.db.user>db2nablarch</nablarch.db.user>
+    <nablarch.db.password>db2nablarch</nablarch.db.password>
+    <!--
+    <nablarch.db.schema>NABLARCH_EXAMPLE</nablarch.db.schema>
+    -->
     <!-- gsp-dba-maven-pluginが読み込むファイルのパス -->
-    <dba.erdFile>src/main/resources/entity/h2.edm</dba.erdFile>
-    <dba.dataDirectory>src/test/resources/data/h2</dba.dataDirectory>
+    <dba.erdFile>src/main/resources/entity/db2.edm</dba.erdFile>
+    <dba.dataDirectory>src/test/resources/data/db2</dba.dataDirectory>
     <!-- maven-gsp-dba-pluginでEntityクラスを生成するパッケージ名。 -->
     <dba.entity.rootPackage>com.nablarch.example.app</dba.entity.rootPackage>
     <dba.entity.entityPackage>entity</dba.entity.entityPackage>
@@ -68,9 +70,9 @@
           <artifactId>nablarch-fw-web-hotdeploy</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-          <version>1.4.192</version>
+          <groupId>com.ibm</groupId>
+          <artifactId>db2jcc4</artifactId>
+          <version>11.1.2.2</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -98,12 +100,35 @@
             <dependencies>
               <!-- プロジェクトで使用するDB製品にあわせたJDBCドライバに上書きする -->
               <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.192</version>
+                <groupId>com.ibm</groupId>
+                <artifactId>db2jcc4</artifactId>
+                <version>11.1.2.2</version>
                 <scope>runtime</scope>
               </dependency>
             </dependencies>
+            <configuration>
+              <dataDirectory>${dba.dataDirectory}</dataDirectory>
+              <erdFile>${dba.erdFile}</erdFile>
+              <lengthSemantics>CHAR</lengthSemantics>
+              <outputDirectory>${dba.gsp-target-dir}/output</outputDirectory>
+              <inputDirectory>${dba.gsp-target-dir}/output</inputDirectory>
+              <ddlDirectory>${dba.gsp-target-dir}/output</ddlDirectory>
+              <diconDir>${dba.gsp-target-dir}/classes</diconDir>
+              <rootPackage>${dba.entity.rootPackage}</rootPackage>
+              <entityPackageName>${dba.entity.entityPackage}</entityPackageName>
+              <useAccessor>true</useAccessor>
+              <javaFileDestDir>${dba.entity.javaFileDestDir}</javaFileDestDir>
+              <driver>${nablarch.db.jdbcDriver}</driver>
+              <url>${nablarch.db.url}</url>
+              <adminUser>${nablarch.db.adminUser}</adminUser>
+              <adminPassword>${nablarch.db.adminPassword}</adminPassword>
+              <user>${nablarch.db.user}</user>
+              <password>${nablarch.db.password}</password>
+              <schema>${nablarch.db.schema}</schema>
+              <!-- 以下はimport-schemaゴール用のパラメータ -->
+              <artifactId>${dba.testDataArtifactId}</artifactId>
+              <extraDdlDirectory>src/main/resources/extraDdl/db2/</extraDdlDirectory>
+            </configuration>
             <executions>
               <execution>
                 <id>default-cli</id>
