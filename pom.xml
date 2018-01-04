@@ -27,13 +27,11 @@
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
     <nablarch.db.jdbcDriver>com.ibm.db2.jcc.DB2Driver</nablarch.db.jdbcDriver>
     <nablarch.db.url>jdbc:db2://localhost:50000/NABLARCH</nablarch.db.url>
-    <nablarch.db.adminUser>db2admin</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>db2admin</nablarch.db.adminPassword>
-    <nablarch.db.user>db2nablarch</nablarch.db.user>
-    <nablarch.db.password>db2nablarch</nablarch.db.password>
-    <!--
-    <nablarch.db.schema>NABLARCH_EXAMPLE</nablarch.db.schema>
-    -->
+    <nablarch.db.adminUser>db2inst1</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>db2inst1-pwd</nablarch.db.adminPassword>
+    <nablarch.db.user>workflow</nablarch.db.user>
+    <nablarch.db.password>workflow</nablarch.db.password>
+    <nablarch.db.schema>workflow</nablarch.db.schema>
     <!-- gsp-dba-maven-pluginが読み込むファイルのパス -->
     <dba.erdFile>src/main/resources/entity/db2.edm</dba.erdFile>
     <dba.dataDirectory>src/test/resources/data/db2</dba.dataDirectory>
@@ -70,9 +68,9 @@
           <artifactId>nablarch-fw-web-hotdeploy</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.ibm</groupId>
+          <groupId>com.ibm.db2</groupId>
           <artifactId>db2jcc4</artifactId>
-          <version>11.1.2.2</version>
+          <version>10.5</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -100,9 +98,9 @@
             <dependencies>
               <!-- プロジェクトで使用するDB製品にあわせたJDBCドライバに上書きする -->
               <dependency>
-                <groupId>com.ibm</groupId>
+                <groupId>com.ibm.db2</groupId>
                 <artifactId>db2jcc4</artifactId>
-                <version>11.1.2.2</version>
+                <version>10.5</version>
                 <scope>runtime</scope>
               </dependency>
             </dependencies>

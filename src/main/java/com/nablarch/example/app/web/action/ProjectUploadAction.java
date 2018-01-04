@@ -196,19 +196,9 @@ public class ProjectUploadAction {
     private void insertProjects(List<Project> projects) {
 
         List<Project> insertProjects = new ArrayList<>();
+        
+        projects.forEach(UniversalDao::insert);
 
-        for (Project project : projects) {
-            insertProjects.add(project);
-            // 100件ごとにbutchInsertする
-            if (insertProjects.size() >= 100) {
-                UniversalDao.batchInsert(insertProjects);
-                insertProjects.clear();
-            }
-        }
-
-        if (!insertProjects.isEmpty()) {
-            UniversalDao.batchInsert(insertProjects);
-        }
     }
 
     /**
