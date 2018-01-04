@@ -25,16 +25,16 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
-    <nablarch.db.url>jdbc:h2:./h2/db/nablarch_example</nablarch.db.url>
-    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
-    <nablarch.db.user>NABLARCH_EXAMPLE</nablarch.db.user>
-    <nablarch.db.password>NABLARCH_EXAMPLE</nablarch.db.password>
-    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
+    <nablarch.db.jdbcDriver>org.postgresql.Driver</nablarch.db.jdbcDriver>
+    <nablarch.db.url>jdbc:postgresql://localhost:5432/postgres</nablarch.db.url>
+    <nablarch.db.adminUser>postgres</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>postgres</nablarch.db.adminPassword>
+    <nablarch.db.user>nablarch_example</nablarch.db.user>
+    <nablarch.db.password>nablarch_example</nablarch.db.password>
+    <nablarch.db.schema>nablarch_example</nablarch.db.schema>
     <!-- gsp-dba-maven-pluginが読み込むファイルのパス -->
-    <dba.erdFile>src/main/resources/entity/h2.edm</dba.erdFile>
-    <dba.dataDirectory>src/test/resources/data/h2</dba.dataDirectory>
+    <dba.erdFile>src/main/resources/entity/postgres.edm</dba.erdFile>
+    <dba.dataDirectory>src/test/resources/data/postgres</dba.dataDirectory>
     <!-- maven-gsp-dba-pluginでEntityクラスを生成するパッケージ名。 -->
     <dba.entity.rootPackage>com.nablarch.example.app</dba.entity.rootPackage>
     <dba.entity.entityPackage>entity</dba.entity.entityPackage>
@@ -68,9 +68,9 @@
           <artifactId>nablarch-fw-web-hotdeploy</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-          <version>1.4.192</version>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>42.1.4</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -98,9 +98,9 @@
             <dependencies>
               <!-- プロジェクトで使用するDB製品にあわせたJDBCドライバに上書きする -->
               <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.192</version>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.1.4</version>
                 <scope>runtime</scope>
               </dependency>
             </dependencies>
@@ -113,7 +113,6 @@
                   <goal>execute-ddl</goal>
                   <goal>generate-entity</goal>
                   <goal>load-data</goal>
-                  <goal>export-schema</goal>
                 </goals>
               </execution>
             </executions>
