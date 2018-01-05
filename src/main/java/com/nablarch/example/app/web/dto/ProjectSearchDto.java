@@ -2,7 +2,7 @@ package com.nablarch.example.app.web.dto;
 
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * プロジェクト検索のDto

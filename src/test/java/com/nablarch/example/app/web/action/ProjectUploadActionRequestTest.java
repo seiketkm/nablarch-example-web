@@ -2,6 +2,8 @@ package com.nablarch.example.app.web.action;
 
 import com.nablarch.example.app.test.advice.SignedInAdvice;
 import com.nablarch.example.app.test.ExampleHttpRequestTestTemplate;
+import nablarch.core.db.transaction.SimpleDbTransactionManager;
+import nablarch.core.repository.SystemRepository;
 import org.junit.Test;
 
 /**
