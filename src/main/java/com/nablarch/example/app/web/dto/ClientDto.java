@@ -9,7 +9,7 @@ package com.nablarch.example.app.web.dto;
 public class ClientDto {
 
     /** 顧客ID */
-    private Integer clientId;
+    private Integer clientNum;
 
     /** 顧客名 */
     private String clientName;
@@ -25,16 +25,16 @@ public class ClientDto {
      * 顧客IDを取得する。
      * @return 顧客ID
      */
-    public Integer getClientId() {
-        return clientId;
+    public Integer getClientNum() {
+        return clientNum;
     }
 
     /**
      * 顧客IDを設定する。
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClientNum(Integer clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**

@@ -45,7 +45,7 @@ public class ProjectForm implements Serializable {
     /** 顧客ID */
     @Domain("id")
     @Required
-    private String clientId;
+    private String clientNum;
 
     /** 顧客名 */
     @Domain("clientName")
@@ -129,8 +129,8 @@ public class ProjectForm implements Serializable {
      *
      * @return 顧客ID
      */
-    public String getClientId() {
-        return clientId;
+    public String getClientNum() {
+        return clientNum;
     }
 
     /**
@@ -139,7 +139,7 @@ public class ProjectForm implements Serializable {
      * @return trueの場合は、顧客IDを保持している。
      */
     public boolean hasClientId() {
-        return clientId != null;
+        return clientNum != null;
     }
 
     /**
@@ -264,10 +264,10 @@ public class ProjectForm implements Serializable {
     /**
      * 顧客IDを設定する。
      *
-     * @param clientId 設定する顧客ID
+     * @param clientNum 設定する顧客ID
      */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClientNum(String clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**

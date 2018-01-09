@@ -17,7 +17,7 @@ import nablarch.common.databind.csv.CsvFormat;
         "プロジェクト開始日", "プロジェクト終了日", "備考", "売上高",
         "売上原価", "販管費", "本社配賦" },
         properties = { "projectName", "projectType", "projectClass",
-                "projectManager", "projectLeader", "clientId",
+                "projectManager", "projectLeader", "clientNum",
                 "clientName", "projectStartDate", "projectEndDate",
                 "note", "sales", "costOfGoodsSold", "sga", "allocationOfCorpExpenses" },
         type = CsvType.CUSTOM)
@@ -45,7 +45,7 @@ public class ProjectDownloadDto implements Serializable {
     private String projectLeader;
 
     /** 顧客ID */
-    private String clientId;
+    private String clientNum;
 
     /** 顧客名 */
     private String clientName;
@@ -155,16 +155,16 @@ public class ProjectDownloadDto implements Serializable {
      * 顧客IDを取得する。
      * @return 顧客ID
      */
-    public String getClientId() {
-        return clientId;
+    public String getClientNum() {
+        return clientNum;
     }
 
     /**
      * 顧客IDを設定する。
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClientNum(String clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**

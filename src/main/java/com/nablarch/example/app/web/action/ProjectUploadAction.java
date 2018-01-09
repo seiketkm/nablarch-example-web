@@ -171,7 +171,7 @@ public class ProjectUploadAction {
             return true;
         }
         return UniversalDao.exists(Client.class, "FIND_BY_CLIENT_ID",
-                new Object[] {Integer.valueOf(projectUploadDto.getClientId())});
+                new Object[] {Integer.valueOf(projectUploadDto.getClientNum())});
     }
 
     /**
@@ -184,7 +184,7 @@ public class ProjectUploadAction {
     private Project createProject(ProjectUploadDto projectUploadDto, Integer userId) {
 
         Project project = BeanUtil.createAndCopy(Project.class, projectUploadDto);
-        project.setUserId(userId);
+        project.setUserNum(userId);
         return project;
     }
 
@@ -197,18 +197,23 @@ public class ProjectUploadAction {
 
         List<Project> insertProjects = new ArrayList<>();
 
+//        for (Project project : projects) {
+//            insertProjects.add(project);
+//            // 100件ごとにbutchInsertする
+//            if (insertProjects.size() >= 100) {
+//                UniversalDao.batchInsert(insertProjects);
+//                insertProjects.clear();
+//            }
+//        }
+//
+//        if (!insertProjects.isEmpty()) {
+//            UniversalDao.batchInsert(insertProjects);
+//        }
+
         for (Project project : projects) {
-            insertProjects.add(project);
-            // 100件ごとにbutchInsertする
-            if (insertProjects.size() >= 100) {
-                UniversalDao.batchInsert(insertProjects);
-                insertProjects.clear();
-            }
+            UniversalDao.insert(project);
         }
 
-        if (!insertProjects.isEmpty()) {
-            UniversalDao.batchInsert(insertProjects);
-        }
     }
 
     /**

@@ -118,7 +118,7 @@
                             </th>
                             <td>
                                 <div class="form-group">
-                                  <n:text name="form.clientNum" maxlength="10" readonly="true" cssClass="form-control input-label" tabindex="-1" id="client-num" />
+                                  <n:text name="form.clientNum" maxlength="10" readonly="true" cssClass="form-control input-label" tabindex="-1" id="client-id" />
                                   <n:text name="form.clientName" maxlength="64" readonly="true" cssClass="form-control  input-label" tabindex="-1" id="client-name" />
                                 </div>
                                 <n:forInputPage>

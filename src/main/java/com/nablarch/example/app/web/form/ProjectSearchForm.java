@@ -23,7 +23,7 @@ public class ProjectSearchForm extends SearchFormBase implements Serializable {
 
     /** 顧客ID */
     @Domain("id")
-    private String clientId;
+    private String clientNum;
 
     /** 顧客名 */
     @Domain("clientName")
@@ -70,17 +70,17 @@ public class ProjectSearchForm extends SearchFormBase implements Serializable {
      *
      * @return 顧客ID
      */
-    public String getClientId() {
-        return clientId;
+    public String getClientNum() {
+        return clientNum;
     }
 
     /**
      * 顧客IDを設定する。
      *
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClientNum(String clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**

@@ -25,16 +25,16 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
-    <nablarch.db.url>jdbc:h2:./h2/db/nablarch_example</nablarch.db.url>
-    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
+    <nablarch.db.jdbcDriver>com.microsoft.sqlserver.jdbc.SQLServerDriver</nablarch.db.jdbcDriver>
+    <nablarch.db.url>jdbc:sqlserver://localhost:1433</nablarch.db.url>
+    <nablarch.db.adminUser>sa</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>yourStrong(!)Password</nablarch.db.adminPassword>
     <nablarch.db.user>NABLARCH_EXAMPLE</nablarch.db.user>
-    <nablarch.db.password>NABLARCH_EXAMPLE</nablarch.db.password>
-    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
+    <nablarch.db.password>yourStrong(!)Password</nablarch.db.password>
+    <nablarch.db.schema>NABLARCH_EXAMPLE</nablarch.db.schema>
     <!-- gsp-dba-maven-pluginが読み込むファイルのパス -->
-    <dba.erdFile>src/main/resources/entity/h2.edm</dba.erdFile>
-    <dba.dataDirectory>src/test/resources/data/h2</dba.dataDirectory>
+    <dba.erdFile>src/main/resources/entity/sqlserver.edm</dba.erdFile>
+    <dba.dataDirectory>src/test/resources/data/sqlserver</dba.dataDirectory>
     <!-- maven-gsp-dba-pluginでEntityクラスを生成するパッケージ名。 -->
     <dba.entity.rootPackage>com.nablarch.example.app</dba.entity.rootPackage>
     <dba.entity.entityPackage>entity</dba.entity.entityPackage>
@@ -68,9 +68,12 @@
           <artifactId>nablarch-fw-web-hotdeploy</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-          <version>1.4.192</version>
+          <groupId>com.microsoft.sqlserver</groupId>
+          <artifactId>mssql-jdbc</artifactId>
+          <version>6.3.6.jre8-preview</version>
+          <!--
+          <version>6.2.2.jre8</version>
+          -->
           <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -98,12 +101,35 @@
             <dependencies>
               <!-- プロジェクトで使用するDB製品にあわせたJDBCドライバに上書きする -->
               <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.192</version>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>6.2.2.jre8</version>
                 <scope>runtime</scope>
               </dependency>
             </dependencies>
+            <configuration>
+              <dataDirectory>${dba.dataDirectory}</dataDirectory>
+              <erdFile>${dba.erdFile}</erdFile>
+              <lengthSemantics>CHAR</lengthSemantics>
+              <outputDirectory>${dba.gsp-target-dir}/output</outputDirectory>
+              <inputDirectory>${dba.gsp-target-dir}/output</inputDirectory>
+              <ddlDirectory>${dba.gsp-target-dir}/output</ddlDirectory>
+              <diconDir>${dba.gsp-target-dir}/classes</diconDir>
+              <rootPackage>${dba.entity.rootPackage}</rootPackage>
+              <entityPackageName>${dba.entity.entityPackage}</entityPackageName>
+              <useAccessor>true</useAccessor>
+              <javaFileDestDir>${dba.entity.javaFileDestDir}</javaFileDestDir>
+              <driver>${nablarch.db.jdbcDriver}</driver>
+              <url>${nablarch.db.url}</url>
+              <adminUser>${nablarch.db.adminUser}</adminUser>
+              <adminPassword>${nablarch.db.adminPassword}</adminPassword>
+              <user>${nablarch.db.user}</user>
+              <password>${nablarch.db.password}</password>
+              <schema>${nablarch.db.schema}</schema>
+              <!-- 以下はimport-schemaゴール用のパラメータ -->
+              <artifactId>${dba.testDataArtifactId}</artifactId>
+              <extraDdlDirectory>src/main/resources/extraDdl/sqlserver/</extraDdlDirectory>
+            </configuration>
             <executions>
               <execution>
                 <id>default-cli</id>
@@ -111,7 +137,10 @@
                 <goals>
                   <goal>generate-ddl</goal>
                   <goal>execute-ddl</goal>
+                  <!-- GSPのバグ(?)により、数値型の主キーが強制的に自動採番扱いされてしまう。そのため、手動でentityをつくる。-->
+                  <!--
                   <goal>generate-entity</goal>
+                  -->
                   <goal>load-data</goal>
                   <goal>export-schema</goal>
                 </goals>

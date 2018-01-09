@@ -36,13 +36,13 @@ public class ProjectSearchDto implements Serializable {
     private Date projectEndDateEnd;
 
     /** 顧客ID */
-    private Integer clientId;
+    private Integer clientNum;
 
     /** 顧客名 */
     private String clientName;
 
     /** ユーザID */
-    private Integer userId;
+    private Integer userNum;
 
     /** ソートID */
     private String sortId;
@@ -171,18 +171,18 @@ public class ProjectSearchDto implements Serializable {
 
     /**
      * clientIdを返却する。
-     * @return clientId
+     * @return clientNum
      */
-    public Integer getClientId() {
-        return clientId;
+    public Integer getClientNum() {
+        return clientNum;
     }
 
     /**
      * clientIdを設定する。
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClientNum(Integer clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**
@@ -205,16 +205,16 @@ public class ProjectSearchDto implements Serializable {
      * ユーザIDを返却する。
      * @return ユーザID
      */
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserNum() {
+        return userNum;
     }
 
     /**
      * ユーザIDを設定する。
-     * @param userId ユーザID
+     * @param userNum ユーザID
      */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserNum(Integer userNum) {
+        this.userNum = userNum;
     }
 
     /**

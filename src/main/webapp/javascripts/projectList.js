@@ -11,10 +11,10 @@ $(function() {
 });
 
 $(function () {
-  var $clientId = $('#client-id');
+  var $clientNum = $('#client-num');
   var $clientName = $('#client-name');
   $('#client-remove').click(function () {
-    $clientId.val('');
+    $clientNum.val('');
     $clientName.val('');
   })
 });

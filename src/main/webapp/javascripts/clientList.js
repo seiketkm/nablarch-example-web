@@ -2,7 +2,7 @@ $(function () {
   var $clientSearchButton = $('#client-search');
   var $modal = $('#client-search-dialog');
   var $clientName = $('#client-name');
-  var $clientId = $('#client-id');
+  var $clientNum = $('#client-num');
   var $searchClientName = $('#search-client-name');
   var $searchIndustryCode = $('#search-industry-code');
   var $searchResult = $('#search-result').find('tbody');
@@ -22,7 +22,7 @@ $(function () {
    */
   function setClientInfo() {
     var $td = $(this).parent();
-    $clientId.val($td.children('span.id').first().text());
+    $clientNum.val($td.children('span.num').first().text());
     $clientName.val($td.children('span.name').first().text());
     $modal.modal('hide');
   }
@@ -65,9 +65,9 @@ $(function () {
                 .append($('<td>').addClass("client-id").append(
                     $('<a>', {
                       href: 'javascript:void(0)',
-                      text: item.clientId
+                      text: item.clientNum
                     }).click(setClientInfo))
-                    .append($('<span>').text(item.clientId).addClass('id').hide())
+                    .append($('<span>').text(item.clientNum).addClass('num').hide())
                     .append($('<span>').text(item.clientName).addClass('name').hide()))
                 .append($('<td>').text(item.clientName))
                 .append($('<td>').text(item.industryName))

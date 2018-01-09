@@ -126,11 +126,11 @@ public class SystemAccountAuthenticator implements PasswordAuthenticator {
         throws AuthenticationFailedException, UserIdLockedException, PasswordExpiredException {
 
         if (account.isUserIdLocked()) {
-            throw new UserIdLockedException(String.valueOf(account.getUserId()), failedCountToLock);
+            throw new UserIdLockedException(String.valueOf(account.getUserNum()), failedCountToLock);
         }
 
         // 入力されたパスワードを暗号化ロジックにしたがって暗号化する。
-        String encryptedPassword = passwordEncryptor.encrypt(String.valueOf(account.getUserId()), password);
+        String encryptedPassword = passwordEncryptor.encrypt(String.valueOf(account.getUserNum()), password);
 
         // アカウントの認証を行う。
         // 本サンプルでは、暗号化後パスワードが一致するか否かのみで認証の判定を行う。
@@ -143,19 +143,19 @@ public class SystemAccountAuthenticator implements PasswordAuthenticator {
             short failedCount = isChecksFailedCount()
                     ? (short) (account.getFailedCount() + Short.valueOf("1"))
                     : account.getFailedCount();
-            updateAuthenticationFailed(account.getUserId(), failedCount);
-            throw new AuthenticationFailedException(String.valueOf(account.getUserId()));
+            updateAuthenticationFailed(account.getUserNum(), failedCount);
+            throw new AuthenticationFailedException(String.valueOf(account.getUserNum()));
         }
 
         // ここまでで、認証自体は成功しているので、ログインが成功した情報を残しておく。
-        updateAuthenticationSucceed(account.getUserId());
+        updateAuthenticationSucceed(account.getUserNum());
 
         // パスワード有効期限切れの判定
         // パスワードの有効期限が切れていたら例外を送出する。
         if (isExpiredPassword(account, businessDate)) {
 
             throw new PasswordExpiredException(
-                    String.valueOf(account.getUserId()),
+                    String.valueOf(account.getUserNum()),
                     account.getPasswordExpirationDate(),
                     businessDate);
         }

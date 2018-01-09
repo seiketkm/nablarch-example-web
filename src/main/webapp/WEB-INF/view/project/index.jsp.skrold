@@ -47,7 +47,7 @@
                                                変数としてpageスコープに登録する。
                                                この変数は、<app:listSearchResult>タグのページング用のURIとして使用される。--%>
                                             <c:url value="/action/project/list" var="uri" context="/">
-                                                <c:param name="searchForm.clientNum" value="${searchForm.clientNum}"/>
+                                                <c:param name="searchForm.clientId" value="${searchForm.clientId}"/>
                                                 <c:param name="searchForm.clientName" value="${searchForm.clientName}"/>
                                                 <c:param name="searchForm.projectName" value="${searchForm.projectName}"/>
                                                 <c:param name="searchForm.projectType" value="${searchForm.projectType}"/>
@@ -74,7 +74,7 @@
                                                         <n:write name="searchResult.pagination.resultCount" />
                                                     </span>
                                                     <c:url value="/action/project/download" var="download_uri" context="/">
-                                                        <c:param name="searchForm.clientNum" value="${searchForm.clientNum}"/>
+                                                        <c:param name="searchForm.clientId" value="${searchForm.clientId}"/>
                                                         <c:param name="searchForm.clientName" value="${searchForm.clientName}"/>
                                                         <c:param name="searchForm.projectName" value="${searchForm.projectName}"/>
                                                         <c:param name="searchForm.projectType" value="${searchForm.projectType}"/>
@@ -96,7 +96,7 @@
                                                 </div>
 
                                                 <!-- ソート順を変更した際に現在の検索条件及びソート順を再送するためのパラメータ -->
-                                                <n:plainHidden name="searchForm.clientNum"/>
+                                                <n:plainHidden name="searchForm.clientId"/>
                                                 <n:plainHidden name="searchForm.clientName"/>
                                                 <n:plainHidden name="searchForm.projectName"/>
                                                 <n:plainHidden name="searchForm.projectType"/>

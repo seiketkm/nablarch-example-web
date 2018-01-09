@@ -32,7 +32,7 @@ public class ProjectDto implements Serializable {
     private Date projectEndDate;
 
     /** 顧客ID */
-    private Integer clientId;
+    private Integer clientNum;
 
     /** 顧客名 */
     private String clientName;
@@ -44,7 +44,7 @@ public class ProjectDto implements Serializable {
     private String projectLeader;
 
     /** ユーザID */
-    private Integer userId;
+    private Integer userNum;
 
     /** 備考 */
     private String note;
@@ -164,16 +164,16 @@ public class ProjectDto implements Serializable {
      * 顧客IDを取得する。
      * @return 顧客ID
      */
-    public Integer getClientId() {
-        return clientId;
+    public Integer getClientNum() {
+        return clientNum;
     }
 
     /**
      * 顧客IDを設定する。
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClientNum(Integer clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**
@@ -212,16 +212,16 @@ public class ProjectDto implements Serializable {
      * ユーザIDを取得する。
      * @return ユーザID
      */
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserNum() {
+        return userNum;
     }
 
     /**
      * ユーザIDを設定する。
-     * @param userId ユーザID
+     * @param userNum ユーザID
      */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserNum(Integer userNum) {
+        this.userNum = userNum;
     }
 
     /**
@@ -341,6 +341,6 @@ public class ProjectDto implements Serializable {
      * @return trueの場合は、顧客IDを保持している。
      */
     public boolean hasClientId() {
-        return clientId != null;
+        return clientNum != null;
     }
 }

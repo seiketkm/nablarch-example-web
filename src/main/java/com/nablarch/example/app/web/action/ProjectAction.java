@@ -68,18 +68,18 @@ public class ProjectAction {
         ProjectForm form = context.getRequestScopedVar("form");
         if (form.hasClientId()) {
             if (!UniversalDao.exists(Client.class, "FIND_BY_CLIENT_ID",
-                    new Object[] {Integer.parseInt(form.getClientId())})) {
+                    new Object[] {Integer.parseInt(form.getClientNum())})) {
                 //補足：数値に対する自動フォーマット(自動的にカンマ編集される)を避けるため、Integerを明示的に文字列に変換している。
                 throw new ApplicationException(
                         MessageUtil.createMessage(MessageLevel.ERROR, "errors.nothing.client",
                                 Client.class.getSimpleName(),
-                                form.getClientId()));
+                                form.getClientNum()));
             }
         }
 
         Project project = BeanUtil.createAndCopy(Project.class, form);
         LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
-        project.setUserId(userContext.getUserId());
+        project.setUserNum(userContext.getUserId());
         SessionUtil.put(context, "project", project);
         final ProjectProfit projectProfit = new ProjectProfit(
                 project.getSales(),
@@ -134,7 +134,7 @@ public class ProjectAction {
             // NoDataException を発生させてシステムエラーとする。
             // ※ example アプリは顧客データのメンテナンス機能がないのでこの対応とするが、
             //   通常業務で削除されることが想定される場合はシステムエラーとはせずにユーザーへの通知が必要。
-            Client client = UniversalDao.findById(Client.class, dto.getClientId());
+            Client client = UniversalDao.findById(Client.class, dto.getClientNum());
             dto.setClientName(client.getClientName());
         }
 
@@ -199,7 +199,7 @@ public class ProjectAction {
             ExecutionContext context) {
 
         LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
-        searchCondition.setUserId(userContext.getUserId());
+        searchCondition.setUserNum(userContext.getUserId());
 
         return UniversalDao
                 .page(searchCondition.getPageNumber())
@@ -221,7 +221,7 @@ public class ProjectAction {
         ProjectSearchForm searchForm = context.getRequestScopedVar("searchForm");
         ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, searchForm);
         LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
-        searchCondition.setUserId(userContext.getUserId());
+        searchCondition.setUserNum(userContext.getUserId());
 
         final Path path = TempFileUtil.createTempFile();
         try (DeferredEntityList<ProjectDownloadDto> searchList = (DeferredEntityList<ProjectDownloadDto>) UniversalDao
@@ -311,11 +311,11 @@ public class ProjectAction {
 
         if (form.hasClientId()) {
             if (!UniversalDao.exists(Client.class, "FIND_BY_CLIENT_ID",
-                    new Object[] {Integer.parseInt(form.getClientId())})) {
+                    new Object[] {Integer.parseInt(form.getClientNum())})) {
                 //補足：数値に対する自動フォーマット(自動的にカンマ編集される)を避けるため、Integerを明示的に文字列に変換している。
                 throw new ApplicationException(
                         MessageUtil.createMessage(MessageLevel.ERROR,
-                                "errors.nothing.client", form.getClientId()));
+                                "errors.nothing.client", form.getClientNum()));
             }
         }
 
@@ -352,7 +352,7 @@ public class ProjectAction {
             // NoDataException を発生させてシステムエラーとする。
             // ※ example アプリは顧客データのメンテナンス機能がないのでこの対応とするが、
             //   通常業務で削除されることが想定される場合はシステムエラーとはせずにユーザーへの通知が必要。
-            Client client = UniversalDao.findById(Client.class, dto.getClientId());
+            Client client = UniversalDao.findById(Client.class, dto.getClientNum());
             dto.setClientName(client.getClientName());
         }
         context.setRequestScopedVar("form", dto);

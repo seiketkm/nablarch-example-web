@@ -10,8 +10,8 @@ SELECT
 FROM
     PROJECT
 WHERE
-    USER_ID = :userId
-    AND $if(clientId)     {CLIENT_ID = :clientId}
+    USER_NUM = :userNum
+    AND $if(clientNum)     {CLIENT_NUM = :clientNum}
     AND $if(projectName) {PROJECT_NAME LIKE  :%projectName%}
     AND $if(projectType) {PROJECT_TYPE = :projectType}
     AND $if(projectClass) {PROJECT_CLASS IN (:projectClass[])}
@@ -38,17 +38,17 @@ SELECT
     PROJECT_CLASS,
     PROJECT_START_DATE,
     PROJECT_END_DATE,
-    CLIENT_ID,
+    CLIENT_NUM,
     PROJECT_MANAGER,
     PROJECT_LEADER,
-    USER_ID,
+    USER_NUM,
     NOTE,
     VERSION
 FROM
     PROJECT
 WHERE
-    USER_ID = :userId
-    AND $if(clientId)     {CLIENT_ID = :clientId}
+    USER_NUM = :userNum
+    AND $if(clientNum)     {CLIENT_NUM = :clientNum}
     AND $if(projectName) {PROJECT_NAME LIKE  :%projectName%}
     AND $if(projectType) {PROJECT_TYPE = :projectType}
     AND $if(projectClass) {PROJECT_CLASS IN (:projectClass[])}

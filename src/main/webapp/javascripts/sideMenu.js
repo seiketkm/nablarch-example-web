@@ -52,7 +52,7 @@ $(function() {
        return false;
    });
 
-   $("#clientId, #clientName").click(function() {
+   $("#clientNum, #clientName").click(function() {
        $("#client_pop").click();
    });
 });
@@ -64,7 +64,7 @@ $(function() {
   });
 });
 
-function setClientParam(clientId, clientName) {
-  $("[name='searchForm.clientId']").val(clientId);
+function setClientParam(clientNum, clientName) {
+  $("[name='searchForm.clientNum']").val(clientNum);
   $("[name='searchForm.clientName']").val(clientName);
 }

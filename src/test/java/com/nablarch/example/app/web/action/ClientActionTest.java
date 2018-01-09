@@ -52,6 +52,7 @@ public class ClientActionTest {
             UniversalDao.insert(industry);
 
             Client client = new Client();
+            client.setClientNum(i);
             client.setClientName("テスト顧客" + i);
             client.setIndustryCode("0" + i);
             UniversalDao.insert(client);

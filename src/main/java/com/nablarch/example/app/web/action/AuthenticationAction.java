@@ -90,10 +90,10 @@ public class AuthenticationAction {
         SystemAccount account = UniversalDao
                 .findBySqlFile(SystemAccount.class,
                         "FIND_SYSTEM_ACCOUNT_BY_AK", new Object[]{loginId});
-        Users users = UniversalDao.findById(Users.class, account.getUserId());
+        Users users = UniversalDao.findById(Users.class, account.getUserNum());
 
         LoginUserPrincipal userContext = new LoginUserPrincipal();
-        userContext.setUserId(account.getUserId());
+        userContext.setUserId(account.getUserNum());
         userContext.setKanjiName(users.getKanjiName());
         userContext.setLastLoginDateTime(account.getLastLoginDateTime());
 

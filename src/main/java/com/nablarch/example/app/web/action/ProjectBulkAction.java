@@ -99,7 +99,7 @@ public class ProjectBulkAction {
      */
     private EntityList<Project> searchProject(ProjectSearchDto searchCondition, ExecutionContext context) {
         LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
-        searchCondition.setUserId(userContext.getUserId());
+        searchCondition.setUserNum(userContext.getUserId());
 
         return UniversalDao
                 .page(searchCondition.getPageNumber())

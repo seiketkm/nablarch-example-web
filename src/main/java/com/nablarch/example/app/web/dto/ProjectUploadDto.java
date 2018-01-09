@@ -28,7 +28,7 @@ import com.nablarch.example.app.entity.core.validation.validator.DateRangeValida
         "プロジェクト開始日", "プロジェクト終了日", "備考", "売上高",
         "売上原価", "販管費", "本社配賦" },
         properties = { "projectName", "projectType", "projectClass",
-                "projectManager", "projectLeader", "clientId",
+                "projectManager", "projectLeader", "clientNum",
                 "clientName", "projectStartDate", "projectEndDate",
                 "note", "sales", "costOfGoodsSold", "sga", "allocationOfCorpExpenses" },
         type = CsvType.CUSTOM)
@@ -69,7 +69,7 @@ public class ProjectUploadDto implements Serializable {
     /** 顧客ID */
     @Domain("id")
     @Required
-    private String clientId;
+    private String clientNum;
 
     /** 顧客名 */
     @Domain("clientName")
@@ -190,16 +190,16 @@ public class ProjectUploadDto implements Serializable {
      * 顧客IDを取得する。
      * @return 顧客ID
      */
-    public String getClientId() {
-        return clientId;
+    public String getClientNum() {
+        return clientNum;
     }
 
     /**
      * 顧客IDを設定する。
-     * @param clientId 顧客ID
+     * @param clientNum 顧客ID
      */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClientNum(String clientNum) {
+        this.clientNum = clientNum;
     }
 
     /**
@@ -354,7 +354,7 @@ public class ProjectUploadDto implements Serializable {
      * @return 顧客IDが有効ならtrue
      */
     public boolean hasValidClientId() {
-        return StringUtil.hasValue(clientId) && isNumber(clientId);
+        return StringUtil.hasValue(clientNum) && isNumber(clientNum);
     }
 
     /**

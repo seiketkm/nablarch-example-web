@@ -1,5 +1,5 @@
 $(function() {
-  var $clientId = $('#client-id');
+  var $clientNum = $('#client-num');
   var $clientName = $('#client-name');
   
   $("#topUpdateButton").click(function() {
@@ -26,7 +26,7 @@ $(function() {
 
 
   $('#client-remove').click(function () {
-    $clientId.val('');
+    $clientNum.val('');
     $clientName.val('');
   })
 });
