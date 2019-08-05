@@ -51,6 +51,16 @@
   <dependencies>
 
     <dependency>
+	  <groupId>com.nablarch.framework</groupId>
+	  <artifactId>nablarch-fw-scoped-dicontainer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.nablarch.configuration</groupId>
       <artifactId>nablarch-main-default-configuration</artifactId>
     </dependency>
