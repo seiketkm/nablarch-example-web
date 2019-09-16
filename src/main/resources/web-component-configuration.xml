@@ -9,8 +9,6 @@
   
   <!-- jsr310 -->
   <import file="JSR310.xml" />
-  
-  <component name="dialect" class="nablarch.core.db.dialect.H2Dialect" />
 
   <!-- 環境設定ファイル -->
   <config-file file="env.properties" />
@@ -78,7 +76,7 @@
 
   <!-- ダイアレクト設定 -->
   <!-- 使用するDBに合わせてダイアレクトを設定すること -->
-  <component name="dialect" class="nablarch.core.db.dialect.H2Dialect" />
+  <component name="dialect" class="nablarch.core.db.dialect.PostgreSQLDialect" />
 
   <!-- ハンドラキュー構成 -->
   <component name="webFrontController"

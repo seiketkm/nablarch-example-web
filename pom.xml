@@ -18,8 +18,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <db.adminUser>SAMPLE</db.adminUser>
-    <db.user>NABLARCH_EXAMPLE</db.user>
+    <db.adminUser>postgres</db.adminUser>
+    <db.adminPassword>password</db.adminPassword>
+    <db.user>nablarch_example</db.user>
 
     <webxml.path>src/main/webapp/WEB-INF/web.xml</webxml.path>
   </properties>
@@ -136,14 +137,14 @@
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-jpa_2.0_spec</artifactId>
     </dependency>
-    
+
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.196</version>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.6.jre6</version>
       <scope>runtime</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
@@ -223,26 +224,26 @@
       <plugin>
         <groupId>jp.co.tis.gsp</groupId>
         <artifactId>gsp-dba-maven-plugin</artifactId>
-        <version>4.3.0</version>
+        <version>4.4.0-SNAPSHOT</version>
         <configuration>
-          <driver>org.h2.Driver</driver>
-          <url>jdbc:h2:./h2/db/nablarch_example</url>
+          <driver>org.postgresql.Driver</driver>
+          <url>jdbc:postgresql://localhost:5432/postgres</url>
           <adminUser>${db.adminUser}</adminUser>
-          <adminPassword>${db.adminUser}</adminPassword>
+          <adminPassword>${db.adminPassword}</adminPassword>
           <user>${db.user}</user>
           <password>${db.user}</password>
           <schema>PUBLIC</schema>
           <useAccessor>true</useAccessor>
           <rootPackage>com.nablarch.example.app</rootPackage>
           <entityPackageName>entity</entityPackageName>
-          <dataDirectory>src/test/resources/data/h2</dataDirectory>
-          <erdFile>src/main/resources/entity/h2.edm</erdFile>
+          <erdFile>src/main/resources/entity/postgres.edm</erdFile>
+          <dataDirectory>src/test/resources/data/postgres</dataDirectory>
         </configuration>
         <dependencies>
           <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.192</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.6.jre6</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
