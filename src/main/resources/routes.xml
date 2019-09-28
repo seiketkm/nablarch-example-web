@@ -19,18 +19,36 @@
         </requirements>
     </get>
 
+    <post  path="/action/project/confirmOfCreate" to="Project#confirmOfCreate"/>
+    <post  path="/action/project/backToNew" to="Project#backToNew"/>
+    <post  path="/action/project/create" to="Project#create"/>
+    <get   path="/action/project/completeOfCreate" to="Project#completeOfCreate"/>
+
     <get path="/action/project/edit/:projectId" to="Project#edit">
         <requirements>
             <requirement name="projectId" value="\d+$" />
         </requirements>
     </get>
     <post  path="/action/project/confirmOfUpdate" to="Project#confirmOfUpdate"/>
+    <post  path="/action/project/backToEdit" to="Project#backToEdit"/>
     <post  path="/action/project/update" to="Project#update"/>
     <get   path="/action/project/completeOfUpdate" to="Project#completeOfUpdate"/>
+    <post  path="/action/project/delete" to="Project#delete"/>
+    <get   path="/action/project/completeOfDelete" to="Project#completeOfDelete"/>
+
+    <get   path="/action/projectBulk/index" to="ProjectBulk#index"/>
+    <get   path="/action/projectBulk/list" to="ProjectBulk#list"/>
+    <post  path="/action/projectBulk/backToList" to="ProjectBulk#backToList"/>
+    <post  path="/action/projectBulk/update" to="ProjectBulk#update"/>
+    <post  path="/action/projectBulk/confirmOfUpdate" to="ProjectBulk#confirmOfUpdate"/>
+    <get   path="/action/projectBulk/completeOfUpdate" to="ProjectBulk#completeOfUpdate"/>
+
+
     <post  path="/action/projectUpload/upload" to="ProjectUpload#upload"/>
     <!--↑ for Wildfly-->
 
 
+    <!--
     <match path="/action/:controller/:action/:projectId">
         <requirements>
             <requirement name="projectId" value="\d+$" />
@@ -38,4 +56,5 @@
     </match>
 
     <match path="/action/:controller/:action"/>
+    -->
 </routes>
