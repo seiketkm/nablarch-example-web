@@ -77,11 +77,6 @@
 
     <dependency>
       <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-fw-web-doublesubmit-jdbc</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
       <artifactId>nablarch-common-idgenerator-jdbc</artifactId>
     </dependency>
 
