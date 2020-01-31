@@ -70,13 +70,12 @@
     <!-- データベースへのトランザクション制御を行うクラス -->
     <property name="dbManager">
       <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-        <property name="dbTransactionName" value="dbTokenManager"/>
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="transactionFactory" ref="transactionFactory"/>
+        <property name="dbTransactionName" value="dbTokenTransaction"/>
       </component>
     </property>
     <property name="dbTokenSchema">
       <component class="nablarch.common.web.token.DbTokenSchema">
+        <property name="tableName" value="TOKEN"/>
         <property name="tokenName" value="TOKEN_VALUE"/>
         <property name="createdAtName" value="CREATED_AT"/>
       </component>
@@ -95,17 +94,16 @@
 
   <!-- セッションストア機能 -->
   <import file="nablarch/webui/session-store.xml" />
+
   <!-- セッションストアの有効期間をデータベースに保存する。（他の値は上記のxmlより引継がれる。） -->
   <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
-    <property name="expiration">
-      <component class="nablarch.common.web.session.DbManagedExpiration">
-        <property name="dbManager">
-          <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-            <property name="dbTransactionName" value="sessionStoreExpiration"/>
-            <property name="connectionFactory" ref="connectionFactory"/>
-            <property name="transactionFactory" ref="transactionFactory"/>
-          </component>
-        </property>
+    <property name="expiration" ref="expiration" />
+  </component>
+
+  <component name="expiration" class="nablarch.common.web.session.DbManagedExpiration">
+    <property name="dbManager">
+      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+        <property name="dbTransactionName" value="expirationTransaction"/>
       </component>
     </property>
   </component>
@@ -195,6 +193,8 @@
       <list>
         <!-- web/session-store.xml:DBストア-->
         <component-ref name="dbStore" />
+        <component-ref name="expiration" />
+        <component-ref name="tokenManager"/>
         <component-ref name="packageMapping" />
         <component-ref name="jaxrsPackageMapping"/>
       </list>
