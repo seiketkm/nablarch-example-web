@@ -66,6 +66,26 @@
     <property name="statusCode" value="400" />
   </component>
 
+  <component name="tokenManager" class="nablarch.common.web.token.DbTokenManager">
+    <!-- データベースへのトランザクション制御を行うクラス -->
+    <property name="dbManager">
+      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+        <property name="dbTransactionName" value="dbTokenManager"/>
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="transactionFactory" ref="transactionFactory"/>
+      </component>
+    </property>
+    <property name="dbTokenSchema">
+      <component class="nablarch.common.web.token.DbTokenSchema">
+        <property name="tokenName" value="TOKEN_VALUE"/>
+        <property name="createdAt" value="CREATED_AT"/>
+      </component>
+    </property>
+  </component>
+
+  <component name="tokenGenerator"
+             class="nablarch.common.web.token.UUIDV4TokenGenerator" />
+
   <!-- hidden暗号化機能を使用しないリクエストID -->
   <list name="noHiddenEncryptionRequestIds">
   </list>
