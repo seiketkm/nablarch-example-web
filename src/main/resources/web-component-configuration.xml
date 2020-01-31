@@ -78,7 +78,7 @@
     <property name="dbTokenSchema">
       <component class="nablarch.common.web.token.DbTokenSchema">
         <property name="tokenName" value="TOKEN_VALUE"/>
-        <property name="createdAt" value="CREATED_AT"/>
+        <property name="createdAtName" value="CREATED_AT"/>
       </component>
     </property>
   </component>
