@@ -246,6 +246,7 @@
           <rootPackage>com.nablarch.example.app</rootPackage>
           <entityPackageName>entity</entityPackageName>
           <dataDirectory>src/test/resources/data/h2</dataDirectory>
+          <extraDdlDirectory>src/main/resources/extraDdl/h2</extraDdlDirectory>
           <erdFile>src/main/resources/entity/h2.edm</erdFile>
         </configuration>
         <dependencies>
