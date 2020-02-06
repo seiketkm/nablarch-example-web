@@ -236,7 +236,7 @@
         <version>4.4.0</version>
         <configuration>
           <driver>oracle.jdbc.driver.OracleDriver</driver>
-          <url>jdbc:oracle:thin:@localhost:41521/xe</url>
+          <url>jdbc:oracle:thin:@localhost:1521/xe</url>
           <adminUser>system</adminUser>
           <adminPassword>systempass</adminPassword>
           <user>performance</user>
