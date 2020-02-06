@@ -18,15 +18,5 @@
     <!-- 二重サブミットと判定した場合のレスポンスステータス。デフォルトは400 -->
     <property name="statusCode" value="400" />
   </component>
-  
-  <!-- トークンをデータベースに保存する -->
-  <component name="tokenManager" class="nablarch.common.web.token.DbTokenManager">
-    <property name="dbManager">
-      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-        <property name="dbTransactionName" value="tokenTransaction"/>
-      </component>
-    </property>
-  </component>
-  <component name="tokenGenerator" class="nablarch.common.web.token.UUIDV4TokenGenerator" />
 
 </component-configuration>

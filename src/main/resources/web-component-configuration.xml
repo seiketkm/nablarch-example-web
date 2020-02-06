@@ -67,7 +67,6 @@
 
   <!-- セッションストア機能 -->
   <import file="nablarch/webui/session-store.xml" />
-  <import file="com/nablarch/example/app/web/webui/session-store.xml" />
 
   <!-- ダイアレクト設定 -->
   <!-- 使用するDBに合わせてダイアレクトを設定すること -->
