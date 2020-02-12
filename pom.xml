@@ -21,18 +21,30 @@
     <db.adminUser>system</db.adminUser>
     <db.user>performance</db.user>
 
+    <!-- 環境ごとのリソースディレクトリ(プロファイルにより切り替わる) -->
+    <env.resources>${project.basedir}/src/env/${env.dir}/resources</env.resources>
+
     <webxml.path>src/main/webapp/WEB-INF/web.xml</webxml.path>
   </properties>
   
   <profiles>
     <profile>
       <id>dev-deploy</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <distributionManagement>
         <site>
           <id>dev-deploy</id>
           <url>${develop_test_report_url}</url>
         </site>
       </distributionManagement>
+    </profile>
+    <profile>
+      <id>http</id>
+      <properties>
+        <env.dir>http</env.dir>
+      </properties>
     </profile>
   </profiles>
 
@@ -220,6 +232,9 @@
 
   <build>
     <resources>
+      <resource>
+        <directory>${env.resources}</directory>
+      </resource>
       <resource>
         <directory>src/main/resources</directory>
       </resource>
