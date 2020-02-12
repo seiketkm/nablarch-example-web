@@ -18,4 +18,5 @@
     <!-- 二重サブミットと判定した場合のレスポンスステータス。デフォルトは400 -->
     <property name="statusCode" value="400" />
   </component>
+
 </component-configuration>
