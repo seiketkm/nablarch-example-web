@@ -74,8 +74,8 @@
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
 
-    <!-- false を明示した場合 -->
-    <property name="preventSessionCreation" value="false" />
+    <!-- true を指定した場合 -->
+    <property name="preventSessionCreation" value="true" />
 
     <property name="handlerQueue">
       <list>
