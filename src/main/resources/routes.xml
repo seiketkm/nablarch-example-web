@@ -1,5 +1,6 @@
 <routes>
     <root to="Authentication#index"/>
+    <get  path="/action/preventSessionCreation" to="PreventSessionCreation#index"/>
     <get  path="/action/login" to="Authentication#index"/>
     <post path="/action/login" to="Authentication#login"/>
     <get  path="/action/logout" to="Authentication#logout"/>
