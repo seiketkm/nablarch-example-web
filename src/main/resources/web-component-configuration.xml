@@ -73,6 +73,10 @@
   <!-- ハンドラキュー構成 -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
+
+    <!-- false を明示した場合 -->
+    <property name="preventSessionCreation" value="false" />
+
     <property name="handlerQueue">
       <list>
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
