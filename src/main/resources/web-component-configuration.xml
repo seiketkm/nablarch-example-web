@@ -157,7 +157,7 @@
       <list>
         <!-- web/session-store.xml:DBストア-->
         <component-ref name="dbStore" />
-        <component-ref name="expiration" />
+<!--        <component-ref name="expiration" />-->
         <component-ref name="tokenManager"/>
         <component-ref name="packageMapping" />
         <component-ref name="jaxrsPackageMapping"/>
