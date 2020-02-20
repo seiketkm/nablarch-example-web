@@ -28,6 +28,9 @@
                     <li>
                         <n:a href="/action/projectUpload">プロジェクト一括登録</n:a>
                     </li>
+                    <li>
+                        <n:a href="/action/osEnvironmentVariable">検証画面</n:a>
+                    </li>
                 </ul>
             </div>
         </div>
