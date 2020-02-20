@@ -85,3 +85,22 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
   JDBC URL：jdbc:h2:{dbファイルのパス}/nablarch_example  
   ユーザ名：NABLARCH_EXAMPLE  
   パスワード：NABLARCH_EXAMPLE
+
+### 6. 検証方法の説明
+メニューバーに「検証画面」という、検証用画面へのボタンを追加。  
+この画面を開くと、「実行」ボタンが用意されているので、それをクリックする。
+
+`PreventSessionCreationAction` で、 `HttpServletRequest` の `getSession()` を実行する検証が行われ、結果がログ（コンソール）に出力される。
+
+**出力例（防止機能を有効にしている場合）**
+
+```
+2020-02-20 11:56:49.746 -INFO- ROOT : ===== getSession(false) =====
+2020-02-20 11:56:49.747 -INFO- ROOT : エラーなし session=null
+2020-02-20 11:56:49.748 -INFO- ROOT : ===== getSession(true) =====
+2020-02-20 11:56:49.751 -INFO- ROOT : 例外がスローされた e=class java.lang.RuntimeException, message=Session creation is prevented.
+2020-02-20 11:56:49.755 -INFO- ROOT : ===== getSession() =====
+2020-02-20 11:56:49.757 -INFO- ROOT : 例外がスローされた e=class java.lang.RuntimeException, message=Session creation is prevented.
+```
+
+適宜 `web-component-configuration.xml` の `WebFrontController` の設定を変更・再起動することで、動作確認が可能。
