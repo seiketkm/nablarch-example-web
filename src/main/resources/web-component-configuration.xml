@@ -52,39 +52,9 @@
   <!-- カスタムタグ設定 -->
   <import file="com/nablarch/example/app/web/webui/nablarch-tag.xml" />
 
-  <!--
-    二重サブミット防止機能
-    二重サブミットが発生した際のデフォルトの遷移先パスを指定する
-  -->
-  <component name="doubleSubmissionHandler"
-             class="nablarch.common.web.token.BasicDoubleSubmissionHandler">
-    <!-- 二重サブミットと判定した場合の遷移先のリソースパス -->
-    <property name="path" value="/WEB-INF/view/common/errorPages/doubleSubmissionError.jsp" />
-    <!-- 二重サブミットと判定した場合の遷移先で表示するエラーメッセージのメッセージID -->
-    <property name="messageId" value="${nablarch.doubleSubmissionHandler.messageId}" />
-    <!-- 二重サブミットと判定した場合のレスポンスステータス。デフォルトは400 -->
-    <property name="statusCode" value="400" />
-  </component>
-
-  <component name="tokenManager" class="nablarch.common.web.token.DbTokenManager">
-    <!-- データベースへのトランザクション制御を行うクラス -->
-    <property name="dbManager">
-      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-        <property name="dbTransactionName" value="dbTokenTransaction"/>
-      </component>
-    </property>
-    <property name="dbTokenSchema">
-      <component class="nablarch.common.web.token.DbTokenSchema">
-        <property name="tableName" value="TOKEN"/>
-        <property name="tokenName" value="TOKEN_VALUE"/>
-        <property name="createdAtName" value="CREATED_AT"/>
-      </component>
-    </property>
-  </component>
-
-  <component name="tokenGenerator"
-             class="nablarch.common.web.token.UUIDV4TokenGenerator" />
-
+  <!-- 二重サブミット防止機能 -->
+  <import file="com/nablarch/example/app/web/webui/double-submission.xml" />
+  
   <!-- hidden暗号化機能を使用しないリクエストID -->
   <list name="noHiddenEncryptionRequestIds">
   </list>
@@ -94,6 +64,7 @@
 
   <!-- セッションストア機能 -->
   <import file="nablarch/webui/session-store.xml" />
+  <import file="com/nablarch/example/app/web/webui/session-store.xml" />
 
   <!-- セッションストアの有効期間をデータベースに保存する。（他の値は上記のxmlより引継がれる。） -->
   <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
@@ -111,6 +82,7 @@
   <!-- ダイアレクト設定 -->
   <!-- 使用するDBに合わせてダイアレクトを設定すること -->
   <component name="dialect" class="nablarch.core.db.dialect.OracleDialect" />
+  <import file="com/nablarch/example/app/web/webui/threadcontext-for-webui.xml"/>
 
   <!-- ハンドラキュー構成 -->
   <component name="webFrontController"
@@ -120,12 +92,16 @@
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
 
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
-
+        <!-- 追加 -->
+        <component class="nablarch.common.handler.threadcontext.ThreadContextClearHandler"/>
+        
         <component class="nablarch.fw.web.handler.HttpResponseHandler"/>
 
         <component class="nablarch.fw.web.handler.SecureHandler" />
 
         <component-ref name="multipartHandler"/>
+        <!-- 追加 -->
+        <component-ref name="threadContextHandler"/>
 
         <component-ref name="sessionStoreHandler" />
 
@@ -138,7 +114,7 @@
           </property>
         </component>
         
-        <component class="nablarch.common.web.handler.HttpAccessLogHandler"/>
+        <component class="nablarch.common.web.handler.HttpAccessLogHandler" />
 
         <component class="nablarch.fw.web.handler.ForwardingHandler"/>
 

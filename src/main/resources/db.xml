@@ -9,6 +9,8 @@
    -->
   <import file="nablarch/core/db/connection-factory-datasource.xml"/>
 
+  <import file="nablarch/core/db/db-access-exception-factory.xml"/>
+  
   <!-- データソース設定 -->
   <component name="dataSource"
              class="com.zaxxer.hikari.HikariDataSource" autowireType="None">
