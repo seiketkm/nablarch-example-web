@@ -9,11 +9,26 @@
     <property name="expiration" ref="expiration" />
   </component>
 
-  <component name="expiration" class="nablarch.common.web.session.DbManagedExpiration">
-    <property name="dbManager">
-      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-        <property name="dbTransactionName" value="expirationTransaction"/>
-      </component>
+  <!-- RedisStore -->
+  <import file="redisstore-lettuce.xml" />
+
+  <component name="expiration" class="nablarch.integration.redisstore.lettuce.LettuceRedisManagedExpiration">
+    <property name="client" ref="lettuceRedisClientProvider" />
+  </component>
+
+  <component name="sessionManager" class="nablarch.common.web.session.SessionManager">
+    <property name="defaultStoreName" value="${nablarch.sessionManager.defaultStoreName}" />
+    <property name="availableStores">
+      <list>
+        <!-- HTTPセッション上に保存するセッションストア -->
+        <component-ref name="httpSessionStore" />
+        <!-- DB上に保存するセッションストア -->
+<!--        <component-ref name="dbStore" />-->
+        <!-- hiddenタグ上に保存するセッションストア -->
+        <component-ref name="hiddenStore" />
+        <!-- RedisStore -->
+        <component-ref name="redisStore" />
+      </list>
     </property>
   </component>
 </component-configuration>
