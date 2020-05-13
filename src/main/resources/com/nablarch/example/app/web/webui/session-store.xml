@@ -5,30 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  https://nablarch.github.io/schema/component-configuration.xsd">
 
-  <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
-    <property name="expiration" ref="expiration" />
-  </component>
-
-  <!-- RedisStore -->
-  <import file="redisstore-lettuce.xml" />
-
-  <component name="expiration" class="nablarch.integration.redisstore.lettuce.LettuceRedisManagedExpiration">
-    <property name="client" ref="lettuceRedisClientProvider" />
-  </component>
-
-  <component name="sessionManager" class="nablarch.common.web.session.SessionManager">
-    <property name="defaultStoreName" value="${nablarch.sessionManager.defaultStoreName}" />
-    <property name="availableStores">
-      <list>
-        <!-- HTTPセッション上に保存するセッションストア -->
-        <component-ref name="httpSessionStore" />
-        <!-- DB上に保存するセッションストア -->
-<!--        <component-ref name="dbStore" />-->
-        <!-- hiddenタグ上に保存するセッションストア -->
-        <component-ref name="hiddenStore" />
-        <!-- RedisStore -->
-        <component-ref name="redisStore" />
-      </list>
-    </property>
+  <component name="lettuceMasterReplicaRedisClient" class="com.nablarch.example.app.redisstore.MyMasterSlaveRedisClient">
+    <property name="uri" value="${nablarch.lettuce.masterReplica.uri}" />
   </component>
 </component-configuration>

@@ -65,6 +65,7 @@
 
   <!-- セッションストア機能 -->
   <import file="nablarch/webui/redisstore-lettuce.xml" />
+  <import file="com/nablarch/example/app/web/webui/session-store.xml" />
 
   <!-- ダイアレクト設定 -->
   <!-- 使用するDBに合わせてダイアレクトを設定すること -->
@@ -89,6 +90,8 @@
         <component class="nablarch.fw.web.handler.SecureHandler" />
 
         <component-ref name="multipartHandler"/>
+
+        <component class="com.nablarch.example.app.redisstore.MyRedisStoreHandler" />
 
         <component-ref name="sessionStoreHandler" />
 
