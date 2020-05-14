@@ -5,7 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  https://nablarch.github.io/schema/component-configuration.xsd">
 
-  <component name="lettuceMasterReplicaRedisClient" class="com.nablarch.example.app.redisstore.MyMasterSlaveRedisClient">
-    <property name="uri" value="${nablarch.lettuce.masterReplica.uri}" />
+  <component name="lettuceClusterRedisClient" class="com.nablarch.example.app.redisstore.MyClusterRedisClient">
+    <property name="uriList" ref="redisClusterUriListFactory" />
   </component>
 </component-configuration>
