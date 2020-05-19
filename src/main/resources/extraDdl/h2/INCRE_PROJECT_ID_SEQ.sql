@@ -1,1 +1,1 @@
-ALTER SEQUENCE PROJECT_ID_SEQ INCREMENT BY 1000 NOCACHE;
+select setval(pg_catalog.pg_get_serial_sequence('performance.project', 'project_id'), 1000);

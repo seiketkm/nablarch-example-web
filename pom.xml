@@ -4,7 +4,7 @@
 
   <groupId>com.nablarch.example</groupId>
   <artifactId>nablarch-example-web</artifactId>
-  <version>5u16-SNAPSHOT</version>
+  <version>5u16</version>
   <packaging>war</packaging>
 
   <properties>
@@ -41,7 +41,7 @@
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u16-SNAPSHOT</version>
+        <version>5u16</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -143,10 +143,9 @@
     </dependency>
     
     <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc6</artifactId>
-      <version>11.2.0.4.0</version>
-      <scope>runtime</scope>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.12</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
@@ -260,10 +259,10 @@
         <artifactId>gsp-dba-maven-plugin</artifactId>
         <version>4.4.0</version>
         <configuration>
-          <driver>oracle.jdbc.driver.OracleDriver</driver>
-          <url>jdbc:oracle:thin:@localhost:1521/xe</url>
-          <adminUser>system</adminUser>
-          <adminPassword>systempass</adminPassword>
+          <driver>org.postgresql.Driver</driver>
+          <url>jdbc:postgresql://localhost:5432/performance</url>
+          <adminUser>postgres</adminUser>
+          <adminPassword>postgres</adminPassword>
           <user>performance</user>
           <password>performance</password>
           <schema>performance</schema>
@@ -272,14 +271,13 @@
           <entityPackageName>entity</entityPackageName>
           <dataDirectory>src/test/resources/data/h2</dataDirectory>
           <extraDdlDirectory>src/main/resources/extraDdl/h2</extraDdlDirectory>
-          <erdFile>src/main/resources/entity/h2.edm</erdFile>
+          <erdFile>src/main/resources/entity/postgres.edm</erdFile>
         </configuration>
         <dependencies>
           <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.4.0</version>
-            <scope>runtime</scope>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.12</version>
           </dependency>
           <dependency>
             <groupId>javax.activation</groupId>

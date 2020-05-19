@@ -300,7 +300,7 @@ public class ProjectActionRequestTest extends ExampleHttpRequestTestTemplate {
                 SessionUtil.delete(context, "project");
                 Project project = createMinimalProject();
                 project.setProjectId(99998);
-                project.setVersion(0L);
+                project.setVersion(0);
                 SessionUtil.put(context, "project", project);
             }
         });
@@ -318,7 +318,7 @@ public class ProjectActionRequestTest extends ExampleHttpRequestTestTemplate {
                 SessionUtil.delete(context, "project");
                 Project project = createMinimalProject();
                 project.setProjectId(99998);
-                project.setVersion(0L);
+                project.setVersion(0);
                 SessionUtil.put(context, "project", project);
             }
         });

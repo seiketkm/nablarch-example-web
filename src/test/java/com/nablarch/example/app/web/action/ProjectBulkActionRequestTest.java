@@ -110,7 +110,7 @@ public class ProjectBulkActionRequestTest extends ExampleHttpRequestTestTemplate
                 p1.setClientId(1);
                 p1.setProjectStartDate(DateUtil.getDate("20180101"));
                 p1.setProjectEndDate(DateUtil.getDate("20180102"));
-                p1.setVersion(0L);
+                p1.setVersion(0);
                 p1.setSales(1);
                 p1.setCostOfGoodsSold(2);
                 p1.setSga(3);
@@ -126,7 +126,7 @@ public class ProjectBulkActionRequestTest extends ExampleHttpRequestTestTemplate
                 p2.setClientId(1);
                 p1.setProjectStartDate(DateUtil.getDate("20180102"));
                 p1.setProjectEndDate(DateUtil.getDate("20180103"));
-                p2.setVersion(0L);
+                p2.setVersion(0);
                 p2.setSales(10);
                 p2.setCostOfGoodsSold(20);
                 p2.setSga(30);
@@ -177,7 +177,7 @@ public class ProjectBulkActionRequestTest extends ExampleHttpRequestTestTemplate
                 p1.setClientId(1);
                 p1.setProjectStartDate(DateUtil.getDate("20180101"));
                 p1.setProjectEndDate(DateUtil.getDate("20180102"));
-                p1.setVersion(0L);
+                p1.setVersion(0);
                 projectListDto.getProjectList().add(p1);
                 SessionUtil.put(context, "projectListDto", projectListDto);
 
@@ -223,7 +223,7 @@ public class ProjectBulkActionRequestTest extends ExampleHttpRequestTestTemplate
                 p1.setProjectType("development");
                 p1.setProjectClass("s");
                 p1.setClientId(1);
-                p1.setVersion(0L);
+                p1.setVersion(0);
                 p1.setProjectStartDate(DateUtil.getDate("20180101"));
                 p1.setProjectEndDate(DateUtil.getDate("20180102"));
                 p1.setProjectManager("まねーじゃ１");
@@ -242,7 +242,7 @@ public class ProjectBulkActionRequestTest extends ExampleHttpRequestTestTemplate
                 p2.setProjectType("development");
                 p2.setProjectClass("s");
                 p2.setClientId(1);
-                p2.setVersion(0L);
+                p2.setVersion(0);
                 p2.setProjectStartDate(DateUtil.getDate("20180201"));
                 p2.setProjectEndDate(DateUtil.getDate("20180228"));
                 p2.setProjectManager("まねーじゃ２");
