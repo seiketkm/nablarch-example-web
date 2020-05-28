@@ -136,8 +136,8 @@ function collectEc2Logs() {
     scp -i $EC2_PRIVATE_KEY \
         ec2-user@$EC2_HOST:/home/ec2-user/$LOG_ZIP_FILE_NAME $WORK_DIR
     
-    unzip $WORK_DIR/$LOG_ZIP_FILE_NAME \
-        -d $WORK_DIR/logs
+    # unzip $WORK_DIR/$LOG_ZIP_FILE_NAME \
+    #     -d $WORK_DIR/logs
 
     ssh ec2-user@$EC2_HOST \
         -i $EC2_PRIVATE_KEY \
