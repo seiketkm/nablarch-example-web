@@ -1,0 +1,62 @@
+version: '3'
+services:
+  redis1_1:
+    container_name: redis1_1
+    build:
+      context: ./redis1_1
+      dockerfile: Dockerfile
+    ports:
+      - "7011:7011"
+      - "17011:17011"
+  redis1_2:
+    container_name: redis1_2
+    build:
+      context: ./redis1_2
+      dockerfile: Dockerfile
+    ports:
+      - "7012:7012"
+      - "17012:17012"
+  redis2_1:
+    container_name: redis2_1
+    build:
+      context: ./redis2_1
+      dockerfile: Dockerfile
+    ports:
+      - "7021:7021"
+      - "17021:17021"
+  redis2_2:
+    container_name: redis2_2
+    build:
+      context: ./redis2_2
+      dockerfile: Dockerfile
+    ports:
+      - "7022:7022"
+      - "17022:17022"
+  redis3_1:
+    container_name: redis3_1
+    build:
+      context: ./redis3_1
+      dockerfile: Dockerfile
+    ports:
+      - "7031:7031"
+      - "17031:17031"
+  redis3_2:
+    container_name: redis3_2
+    build:
+      context: ./redis3_2
+      dockerfile: Dockerfile
+    ports:
+      - "7032:7032"
+      - "17032:17032"
+  create_cluster:
+    container_name: create_cluster
+    build:
+      context: ./create-cluster
+      dockerfile: Dockerfile
+    depends_on:
+      - redis1_1
+      - redis1_2
+      - redis2_1
+      - redis2_2
+      - redis3_1
+      - redis3_2

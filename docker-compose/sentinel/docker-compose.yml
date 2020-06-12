@@ -1,0 +1,45 @@
+version: '3'
+services:
+  redis1:
+    container_name: redis1
+    build:
+      context: ./redis1
+      dockerfile: Dockerfile
+    ports:
+      - "6381:6381"
+  redis2:
+    container_name: redis2
+    build:
+      context: ./redis2
+      dockerfile: Dockerfile
+    ports:
+      - "6382:6382"
+  redis3:
+    container_name: redis3
+    build:
+      context: ./redis3
+      dockerfile: Dockerfile
+    ports:
+      - "6383:6383"
+  sentinel1:
+    container_name: sentinel1
+    build:
+      context: ./sentinel1
+      dockerfile: Dockerfile
+    ports:
+      - "26381:26381"
+  sentinel2:
+    container_name: sentinel2
+    build:
+      context: ./sentinel2
+      dockerfile: Dockerfile
+    ports:
+      - "26382:26382"
+  sentinel3:
+    container_name: sentinel3
+    build:
+      context: ./sentinel3
+      dockerfile: Dockerfile
+    ports:
+      - "26383:26383"
+

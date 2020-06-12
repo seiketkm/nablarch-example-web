@@ -74,7 +74,13 @@
       <groupId>com.nablarch.framework</groupId>
       <artifactId>nablarch-fw-web-dbstore</artifactId>
     </dependency>
-
+    
+    <!-- RedisStore Lettuceアダプタ -->
+    <dependency>
+      <groupId>com.nablarch.integration</groupId>
+      <artifactId>nablarch-redisstore-lettuce-adaptor</artifactId>
+    </dependency>
+    
     <dependency>
       <groupId>com.nablarch.framework</groupId>
       <artifactId>nablarch-fw-web-doublesubmit-jdbc</artifactId>
