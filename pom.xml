@@ -52,6 +52,11 @@
   <dependencies>
 
     <dependency>
+      <groupId>com.nablarch.integration</groupId>
+      <artifactId>nablarch-redisstore-lettuce-adaptor</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.nablarch.configuration</groupId>
       <artifactId>nablarch-main-default-configuration</artifactId>
     </dependency>
