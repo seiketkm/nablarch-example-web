@@ -98,10 +98,10 @@
         <component class="nablarch.fw.web.handler.SecureHandler" />
 
         <component-ref name="multipartHandler"/>
-        <!-- 追加 -->
-        <component-ref name="threadContextHandler"/>
 
         <component-ref name="sessionStoreHandler" />
+        <!-- 追加 -->
+        <component-ref name="threadContextHandler"/>
 
         <component class="nablarch.fw.web.handler.NormalizationHandler">
           <property name="normalizers">
