@@ -93,6 +93,7 @@
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
 
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
+        <component-ref name="metrics"/>
         <!-- 追加 -->
         <component class="nablarch.common.handler.threadcontext.ThreadContextClearHandler"/>
         
@@ -158,6 +159,7 @@
             <component class="com.nablarch.example.app.web.handler.RestfulErrorResponseBuilder" />
           </property>
         </component>
+        <component-ref name="metrics"/>
         <component-ref name="dbConnectionManagementHandler"/>
         <component-ref name="transactionManagementHandler"/>
         <component-ref name="jaxrsPackageMapping"/>
@@ -176,8 +178,13 @@
         <component-ref name="tokenManager"/>
         <component-ref name="packageMapping" />
         <component-ref name="jaxrsPackageMapping"/>
+        <component-ref name="metrics"/>
       </list>
     </property>
+  </component>
+
+  <component name="metrics" class="com.nablarch.example.app.web.handler.MetricsHandler">
+    <property name="dataSource" ref="dataSource"/>
   </component>
 
 </component-configuration>
