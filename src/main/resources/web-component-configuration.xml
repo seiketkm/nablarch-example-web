@@ -89,7 +89,7 @@
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
 
         <component class="nablarch.integration.amazonaws.xray.AWSXRayServletFilterAdaptorHandlerFactory">
-          <property name="fixedSegmentName" value="example"/>
+          <property name="fixedSegmentName" value="example-web"/>
           <property name="enabledXRay" value="${aws.xray.enabled}"/>
         </component>
         
@@ -155,7 +155,7 @@
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
         <component class="nablarch.integration.amazonaws.xray.AWSXRayServletFilterAdaptorHandlerFactory">
-          <property name="fixedSegmentName" value="example"/>
+          <property name="fixedSegmentName" value="example-web-api"/>
           <property name="enabledXRay" value="${aws.xray.enabled}"/>
         </component>
         <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">

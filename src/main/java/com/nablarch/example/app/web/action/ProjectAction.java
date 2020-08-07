@@ -22,14 +22,20 @@ import nablarch.common.web.interceptor.InjectForm;
 import nablarch.common.web.session.SessionUtil;
 import nablarch.common.web.token.OnDoubleSubmission;
 import nablarch.core.beans.BeanUtil;
+import nablarch.core.log.Logger;
+import nablarch.core.log.LoggerManager;
 import nablarch.core.message.ApplicationException;
 import nablarch.core.message.MessageLevel;
 import nablarch.core.message.MessageUtil;
+import nablarch.core.repository.SystemRepository;
 import nablarch.fw.ExecutionContext;
 import nablarch.fw.web.HttpRequest;
 import nablarch.fw.web.HttpResponse;
 import nablarch.fw.web.interceptor.OnError;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -151,6 +157,15 @@ public class ProjectAction {
      * @return HTTPレスポンス
      */
     public HttpResponse index(HttpRequest request, ExecutionContext context) {
+
+        HttpGet httpGet = new HttpGet((String) SystemRepository.get("api.example.rest"));
+        HttpClient client = SystemRepository.get("httpClient");
+        try {
+            org.apache.http.HttpResponse response = client.execute(httpGet);
+            LOGGER.logInfo("*************api:"+response.getStatusLine().getStatusCode());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // 初期表示時点でのページ番号とソートキーを設定する
         ProjectSearchForm searchForm = new ProjectSearchForm();
