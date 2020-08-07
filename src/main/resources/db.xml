@@ -10,7 +10,7 @@
   <import file="nablarch/core/db/connection-factory-datasource.xml"/>
 
   <!-- データソース設定 -->
-  <component name="dataSource"
+  <component name="rawDataSource"
              class="com.zaxxer.hikari.HikariDataSource" autowireType="None">
     <property name="driverClassName" value="${nablarch.db.jdbcDriver}"/>
     <property name="jdbcUrl"         value="${nablarch.db.url}"/>
@@ -18,5 +18,11 @@
     <property name="password"        value="${nablarch.db.password}"/>
     <property name="maximumPoolSize" value="${nablarch.db.maxPoolSize}"/>
   </component>
-
+  
+  <component name="dataSource" class="nablarch.integration.amazonaws.xray.TracingDataSourceFactory">
+    <property name="enabledXRay" value="${aws.xray.enabled}"/>
+    <!-- このフィールドに設定したDataSourceをラッピングしてトレース可能とする -->
+    <property name="dataSource" ref="rawDataSource"/>
+  </component>
+  
 </component-configuration>

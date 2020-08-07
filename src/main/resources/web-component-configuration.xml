@@ -75,6 +75,10 @@
   <component name="csrfTokenVerificationHandler"
              class="nablarch.fw.web.handler.CsrfTokenVerificationHandler" />
 
+  <component name="httpClient" class="nablarch.integration.amazonaws.xray.AWSXRayHttpClientFactory">
+    <property name="enabledXRay" value="${aws.xray.enabled}"/>
+  </component>
+  
   <!-- ハンドラキュー構成 -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
@@ -84,6 +88,11 @@
 
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
 
+        <component class="nablarch.integration.amazonaws.xray.AWSXRayServletFilterAdaptorHandlerFactory">
+          <property name="fixedSegmentName" value="example"/>
+          <property name="enabledXRay" value="${aws.xray.enabled}"/>
+        </component>
+        
         <component class="nablarch.common.handler.threadcontext.ThreadContextClearHandler"/>
 
         <component class="nablarch.fw.web.handler.HttpResponseHandler"/>
@@ -145,6 +154,10 @@
       <list>
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
         <component class="nablarch.fw.handler.GlobalErrorHandler"/>
+        <component class="nablarch.integration.amazonaws.xray.AWSXRayServletFilterAdaptorHandlerFactory">
+          <property name="fixedSegmentName" value="example"/>
+          <property name="enabledXRay" value="${aws.xray.enabled}"/>
+        </component>
         <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
           <property name="errorResponseBuilder">
             <component class="com.nablarch.example.app.web.handler.RestfulErrorResponseBuilder" />
