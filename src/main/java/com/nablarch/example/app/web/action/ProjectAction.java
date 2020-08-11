@@ -162,7 +162,6 @@ public class ProjectAction {
         HttpClient client = SystemRepository.get("httpClient");
         try {
             org.apache.http.HttpResponse response = client.execute(httpGet);
-            LOGGER.logInfo("*************api:"+response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
