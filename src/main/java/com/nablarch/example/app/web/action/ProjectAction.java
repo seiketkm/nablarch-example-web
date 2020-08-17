@@ -35,7 +35,11 @@ import nablarch.fw.web.interceptor.OnError;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -149,6 +153,8 @@ public class ProjectAction {
         return new HttpResponse("/WEB-INF/view/project/create.jsp");
     }
 
+    private static final Logger LOGGER = LoggerManager.get(ProjectAction.class);
+
     /**
      * 検索一覧初期画面を表示。
      *
@@ -161,9 +167,16 @@ public class ProjectAction {
         HttpGet httpGet = new HttpGet((String) SystemRepository.get("api.example.rest"));
         HttpClient client = SystemRepository.get("httpClient");
         try {
+            LOGGER.logInfo("URI:" + httpGet.getRequestLine().getUri());
             org.apache.http.HttpResponse response = client.execute(httpGet);
+            try (InputStream in = response.getEntity().getContent();
+                 BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                LOGGER.logInfo("response:" + response.getStatusLine().getStatusCode()
+                        + ' ' + response.getStatusLine().getReasonPhrase()
+                        + " [" + br.readLine().substring(0, 100) + ".....]");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.logWarn(e.getMessage());
         }
 
         // 初期表示時点でのページ番号とソートキーを設定する
