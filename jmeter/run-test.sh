@@ -9,19 +9,13 @@ ENV_FILE=$THIS_DIR/env.sh
 if [ ! -e $ENV_FILE ]; then
     cat << EOS > $ENV_FILE
 # アプリを動かしているEC2のホスト情報
-export EC2_HOST=changeme
+export EC2_HOST_AP=changeme
+export EC2_HOST_REST=changeme
 # EC2_HOSTで指定したサーバーに接続するための秘密鍵のパス
 export EC2_PRIVATE_KEY=changeme
 
 # RDSのエンドポイント
 export RDS_ENDPOINT=changeme
-
-# ElastiCacheのエンドポイント
-export ECACHE_ENDPOINT=changeme
-# ElastiCacheのポート
-export ECACHE_PORT=6379
-# ElastiCacheのRedis認証トークン
-export ECACHE_AUTH_TOKEN=nablarch-redisstore
 
 # 実行するスレッド数のパターン
 export THREAD_PATTERN="1 5 10 50 100"
@@ -36,25 +30,12 @@ fi
 
 source $ENV_FILE
 
-# 対象の決定 (db or redis)
-TARGET=$1
-
-if [ "$TARGET" != "db" -a "$TARGET" != "redis" ]; then
-    echo 第一引数は db または redis を指定してください TARGET=$TARGET
-    exit 1
-fi
-
 # RDS の IP アドレス解決
-RDS_IP_ADDRESS=$(ssh -i $EC2_PRIVATE_KEY ec2-user@$EC2_HOST nslookup $RDS_ENDPOINT | sed -n -r 's/^Address: ([0-9.]+)$/\1/p')
+RDS_IP_ADDRESS=$(ssh -i $EC2_PRIVATE_KEY ec2-user@$EC2_HOST_AP nslookup $RDS_ENDPOINT | sed -n -r 's/^Address: ([0-9.]+)$/\1/p')
 
 echo RDS_ENDPOINT=$RDS_ENDPOINT
 echo RDS_IP_ADDRESS=$RDS_IP_ADDRESS
 
-# ElastiCache の IP アドレス解決
-ECACHE_IP_ADDRESS=$(ssh -i $EC2_PRIVATE_KEY ec2-user@$EC2_HOST nslookup $ECACHE_ENDPOINT | sed -n -r 's/^Address: ([0-9.]+)$/\1/p')
-
-echo ECACHE_ENDPOINT=$ECACHE_ENDPOINT
-echo ECACHE_IP_ADDRESS=$ECACHE_IP_ADDRESS
 
 # 関数定義
 function initializeDatabase() {
@@ -62,53 +43,53 @@ function initializeDatabase() {
     mvn generate-resources -Ddb.host=$RDS_IP_ADDRESS
 }
 
-function initializeRedis() {
-    openssl s_client -host $ECACHE_IP_ADDRESS -port $ECACHE_PORT << EOS
-auth $ECACHE_AUTH_TOKEN
-flushall
-quit
-EOS
-}
-
 function deployWar() {
-    if [ "$TARGET" == "db" ]; then
-        local WAR_FILE=example-web-db.war
-    else
-        local WAR_FILE=example-web-redis.war
-    fi
+    local WAR_FILE_AP=example-web.war
 
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
-        "source ~/.bash_profile; rm -rf \$TOMCAT_HOME/webapps/ROOT; unzip \$HOME/$WAR_FILE -d \$TOMCAT_HOME/webapps/ROOT"
+        "source ~/.bash_profile; rm -rf \$TOMCAT_HOME/webapps/ROOT; unzip \$HOME/$WAR_FILE_AP -d \$TOMCAT_HOME/webapps/ROOT"
+
+    local WAR_FILE_REST=example-rest.war
+
+    ssh ec2-user@$EC2_HOST_REST \
+        -i $EC2_PRIVATE_KEY \
+        "source ~/.bash_profile; rm -rf \$TOMCAT_HOME/webapps/ROOT; unzip \$HOME/$WAR_FILE_REST -d \$TOMCAT_HOME/webapps/ROOT"
 }
 
 function startTomcat() {
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
+        -i $EC2_PRIVATE_KEY \
+        'source ~/.bash_profile; $TOMCAT_HOME/bin/startup.sh'
+    ssh ec2-user@$EC2_HOST_REST \
         -i $EC2_PRIVATE_KEY \
         'source ~/.bash_profile; $TOMCAT_HOME/bin/startup.sh'
 }
 
 function stopTomcat() {
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
+        -i $EC2_PRIVATE_KEY \
+        'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh'
+    ssh ec2-user@$EC2_HOST_REST \
         -i $EC2_PRIVATE_KEY \
         'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh'
 }
 
 function startJstat() {
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
         "source ~/.bash_profile; jcmd | sed -n -r 's/([0-9]+) org.apache.catalina.startup.Bootstrap start/\1/p' | xargs -I {} jstat -gc {} 1s > ~/logs/jstat.log &"
 }
 
 function stopJstatAndCollectLog() {
     # jstat コマンドのプロセスを kill
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
         "source ~/.bash_profile; jcmd | sed -n -r 's/([0-9]+) sun.tools.jstat.Jstat.+/\1/p' | xargs kill"
 
     # jstat.log をローカルにダウンロード
     scp -i $EC2_PRIVATE_KEY \
-        ec2-user@$EC2_HOST:/home/ec2-user/logs/jstat.log $WORK_DIR
+        ec2-user@$EC2_HOST_AP:/home/ec2-user/logs/jstat.log $WORK_DIR
 
     # 必要な項目だけを抽出して、タブ区切りにして別ファイルに出力
     awk 'BEGIN { OFS = "\t" } { print $6,$8,$13,$14,$15,$16,$17}' $WORK_DIR/jstat.log > jstat_filtered.log
@@ -126,37 +107,58 @@ function runJMeter() {
         -e -l $JMETER_REPORT_DIR/test.jtl \
         -o $JMETER_REPORT_DIR \
         -Jthread.number=$THREAD_NUMBER \
-        -Jserver.host=$EC2_HOST
+        -Jserver.host=$EC2_HOST_AP
 }
 
 function collectLogs() {
-    local LOG_ZIP_FILE_NAME=logs_`date "+%Y%m%d_%H%M%S"`.zip
+    local LOG_ZIP_FILE_NAME_AP=logs_`date "+%Y%m%d_%H%M%S"`_AP.zip
 
     # Tomcat とアプリのログを zip 圧縮
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
-        "source ~/.bash_profile; zip -j ~/$LOG_ZIP_FILE_NAME ~/logs/* \$TOMCAT_HOME/logs/*"
+        "source ~/.bash_profile; zip -j ~/$LOG_ZIP_FILE_NAME_AP ~/logs/* \$TOMCAT_HOME/logs/*"
     
     # zip をローカルにダウンロード
     scp -i $EC2_PRIVATE_KEY \
-        ec2-user@$EC2_HOST:/home/ec2-user/$LOG_ZIP_FILE_NAME $WORK_DIR
+        ec2-user@$EC2_HOST_AP:/home/ec2-user/$LOG_ZIP_FILE_NAME_AP $WORK_DIR
 
     # 圧縮前のログを削除
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
         'source ~/.bash_profile; rm ~/logs/* $TOMCAT_HOME/logs/*'
 
     # リモートの zip を削除
-    ssh ec2-user@$EC2_HOST \
+    ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
-        "source ~/.bash_profile; rm ~/$LOG_ZIP_FILE_NAME"
+        "source ~/.bash_profile; rm ~/$LOG_ZIP_FILE_NAME_AP"
+
+    local LOG_ZIP_FILE_NAME_REST=logs_`date "+%Y%m%d_%H%M%S"`_REST.zip
+
+    # Tomcat とアプリのログを zip 圧縮
+    ssh ec2-user@$EC2_HOST_REST \
+        -i $EC2_PRIVATE_KEY \
+        "source ~/.bash_profile; zip -j ~/$LOG_ZIP_FILE_NAME_REST ~/logs/* \$TOMCAT_HOME/logs/*"
+    
+    # zip をローカルにダウンロード
+    scp -i $EC2_PRIVATE_KEY \
+        ec2-user@$EC2_HOST_REST:/home/ec2-user/$LOG_ZIP_FILE_NAME_REST $WORK_DIR
+
+    # 圧縮前のログを削除
+    ssh ec2-user@$EC2_HOST_REST \
+        -i $EC2_PRIVATE_KEY \
+        'source ~/.bash_profile; rm ~/logs/* $TOMCAT_HOME/logs/*'
+
+    # リモートの zip を削除
+    ssh ec2-user@$EC2_HOST_REST \
+        -i $EC2_PRIVATE_KEY \
+        "source ~/.bash_profile; rm ~/$LOG_ZIP_FILE_NAME_REST"
 }
 
 # main 処理
 echo THREAD_PATTERN=$THREAD_PATTERN
 echo LOOP_COUNT=$LOOP_COUNT
 
-OUT_DIR=$THIS_DIR/logs/$TARGET/test_`date "+%Y%m%d_%H%M%S"`
+OUT_DIR=$THIS_DIR/logs/enabled/test_`date "+%Y%m%d_%H%M%S"`
 mkdir $OUT_DIR
 
 # スレッド（ユーザ）数ループ
@@ -175,11 +177,6 @@ do
         echo ===== Initialize Database $STATE =====
         initializeDatabase
 
-        if [ "$TARGET" == "redis" ]; then
-            echo ===== Initialize Redis $STATE =====
-            initializeRedis
-        fi
-
         echo ===== Deploy War $STATE =====
         deployWar
 
@@ -195,11 +192,11 @@ do
         echo ===== Stop Jstat $STATE =====
         stopJstatAndCollectLog
 
-        echo ===== Collect Application Logs $STATE =====
-        collectLogs
-
         echo ===== Stop Application Server $STATE =====
         stopTomcat
+
+        echo ===== Collect Application Logs $STATE =====
+        collectLogs
     done
 done
 
