@@ -12,7 +12,6 @@ import com.nablarch.example.app.web.form.ProjectForm;
 import com.nablarch.example.app.web.form.ProjectSearchForm;
 import com.nablarch.example.app.web.form.ProjectTargetForm;
 import com.nablarch.example.app.web.form.ProjectUpdateForm;
-
 import nablarch.common.dao.DeferredEntityList;
 import nablarch.common.dao.UniversalDao;
 import nablarch.common.databind.ObjectMapper;
@@ -32,8 +31,8 @@ import nablarch.fw.ExecutionContext;
 import nablarch.fw.web.HttpRequest;
 import nablarch.fw.web.HttpResponse;
 import nablarch.fw.web.interceptor.OnError;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -163,18 +162,8 @@ public class ProjectAction {
      * @return HTTPレスポンス
      */
     public HttpResponse index(HttpRequest request, ExecutionContext context) {
-
-        HttpGet httpGet = new HttpGet((String) SystemRepository.get("api.example.rest"));
-        HttpClient client = SystemRepository.get("httpClient");
         try {
-            LOGGER.logInfo("URI:" + httpGet.getRequestLine().getUri());
-            org.apache.http.HttpResponse response = client.execute(httpGet);
-            try (InputStream in = response.getEntity().getContent();
-                 BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
-                LOGGER.logInfo("response:" + response.getStatusLine().getStatusCode()
-                        + ' ' + response.getStatusLine().getReasonPhrase()
-                        + " [" + br.readLine().substring(0, 100) + ".....]");
-            }
+            sendHttpRequest();
         } catch (IOException e) {
             LOGGER.logWarn(e.getMessage());
         }
@@ -191,6 +180,24 @@ public class ProjectAction {
         context.setRequestScopedVar("searchResult", searchList);
 
         return new HttpResponse("/WEB-INF/view/project/index.jsp");
+    }
+
+    private void sendHttpRequest() throws IOException {
+        HttpGet httpGet = new HttpGet((String) SystemRepository.get("api.example.rest"));
+        CloseableHttpClient client = SystemRepository.get("httpClient");
+        LOGGER.logInfo("URI:" + httpGet.getRequestLine().getUri());
+
+        org.apache.http.HttpResponse response = client.execute(httpGet);
+
+        try (InputStream in = response.getEntity().getContent();
+             BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            final String line = br.readLine();
+            if (null != line) {
+                LOGGER.logInfo("response:" + response.getStatusLine().getStatusCode()
+                        + ' ' + response.getStatusLine().getReasonPhrase()
+                        + " [" + line.substring(0, 100) + ".....]");
+            }
+        }
     }
 
     /**
