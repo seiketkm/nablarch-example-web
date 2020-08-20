@@ -20,6 +20,9 @@
   <listener>
     <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>com.nablarch.example.xray.AWSXRaySampleStrategyShutdownListener</listener-class>
+  </listener>
 
   <display-name>Nablarch Example</display-name>
   <description>
