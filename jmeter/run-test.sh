@@ -69,10 +69,10 @@ function startTomcat() {
 function stopTomcat() {
     ssh ec2-user@$EC2_HOST_AP \
         -i $EC2_PRIVATE_KEY \
-        'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh -force'
+        'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh'
     ssh ec2-user@$EC2_HOST_REST \
         -i $EC2_PRIVATE_KEY \
-        'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh -force'
+        'source ~/.bash_profile; $TOMCAT_HOME/bin/shutdown.sh'
 }
 
 function startJstat() {
